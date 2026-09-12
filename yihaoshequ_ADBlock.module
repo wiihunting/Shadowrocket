@@ -1,0 +1,29 @@
+#!name=一号社区APP广告拦截
+#!desc=针对特定广告联盟、字节相关SDK及开屏广告的精准黑名单拦截模块（已启用预检测与扩展检测）
+#!author=wiihunting
+#!category=AdBlock
+#!system=ios
+
+[Rule]
+# > 字节跳动相关广告及 SDK 拦截
+DOMAIN-SUFFIX,bytescm.com,REJECT,pre-matching,extended-matching
+DOMAIN-KEYWORD,toutiao.com,REJECT,pre-matching,extended-matching
+DOMAIN-KEYWORD,toutiao-,REJECT,pre-matching,extended-matching
+
+# > 百度对象存储广告缓存拦截
+DOMAIN-KEYWORD,bcebos,REJECT,pre-matching,extended-matching
+
+# > 广告联盟与联盟分发 SDK
+DOMAIN-SUFFIX,adn-plus.com.cn,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,beizi.biz,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,puata.info,REJECT,pre-matching,extended-matching
+
+DOMAIN-SUFFIX,secu100.net,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,hubcloud.com.cn,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,umeng.com,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,umengcloud.com,REJECT,pre-matching,extended-matching
+
+# 不能把jpush.cn完全屏蔽
+DOMAIN-KEYWORD,stats.jpush,REJECT,pre-matching,extended-matching
+
+DOMAIN-KEYWORD,doubleclick,REJECT,pre-matching,extended-matching
