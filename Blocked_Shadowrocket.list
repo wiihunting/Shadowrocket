@@ -1,0 +1,20 @@
+# To be blocked
+# DOMAIN-SUFFIX,get.shouji.sogou.com
+# DOMAIN-KEYWORD,sogou.com
+DOMAIN-SUFFIX,reports.crashlytics.com
+DOMAIN-SUFFIX,doubleclick-cn.net
+# 一号社区
+# 以下这些不能屏蔽
+; easytomessage.com
+; 0easy.com
+DOMAIN-SUFFIX,gifshow.com
+DOMAIN-SUFFIX,ctobsnssdk.com
+DOMAIN-SUFFIX,ulogs.umengcloud.com
+DOMAIN-SUFFIX,cloud-links.net
+DOMAIN-SUFFIX,xmeye.net
+DOMAIN-SUFFIX,zijieapi.com
+DOMAIN-SUFFIX,cloudlinks.cn
+DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com
+DOMAIN-SUFFIX,e.kuaishou.cn
+DOMAIN-SUFFIX,e.kuaishou.com
+DOMAIN-SUFFIX,volces.com
