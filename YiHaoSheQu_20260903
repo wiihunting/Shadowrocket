@@ -1,0 +1,208 @@
+#!name=一号社区APP广告拦截
+#!desc=一号社区APP广告拦截模块：放行官方业务域名，拦截第三方广告SDK、广告联盟及推广素材（已启用预检测与扩展检测）
+#!version=v5.3
+#!author=wiihunting
+#!category=AdBlock
+#!system=ios
+#!url=https://gist.githubusercontent.com/wiihunting/dc919f26a4caf9fedd04ef2a9c14962a/raw/YiHaoSheQu_20260903
+
+[Rule]
+
+# ══════════════════════════════════════════════
+# 一、放行区（DIRECT）—— 必须置于最前，拦截会导致 APP 无法联网
+# ══════════════════════════════════════════════
+
+# > 一号社区官方主 API 与云存储
+# 深圳市零壹移动互联系统有限公司 = 1号社区官方（业务路径 yihao01-ecommunity-cloud）
+DOMAIN-SUFFIX,0easy.com,DIRECT
+
+# > 小区通知 / 消息推送服务
+DOMAIN-SUFFIX,easytomessage.com,DIRECT
+
+# > Cloudlinks 门禁可视对讲 P2P 节点
+# 与 api1/p2p1/p2p2.cloudlinks.cn 是同一服务（同端口 51701、同路径 /gwellcloud/service/）
+# 该 .net 域名未被 .cn 分流规则覆盖，会落到 FINAL 绕境外，导致开门/对讲延迟，必须显式直连
+DOMAIN-SUFFIX,cloud-links.net,DIRECT
+
+# > Microsoft CodePush —— React Native 热更新服务
+# 用精确匹配，避免影响其他 Azure 服务（全局规则将 azurewebsites.net 划到香港节点）
+DOMAIN,codepush.azurewebsites.net,DIRECT
+
+
+# ══════════════════════════════════════════════
+# 二、拦截区（REJECT）—— 2.1 沿用 v4.0，2.2 源自日志1，2.3 源自日志2
+# ══════════════════════════════════════════════
+
+# ─── 2.1 原有规则（v4.0 沿用，勿删）─────────────
+
+# > 字节跳动相关广告及 SDK
+# 穿山甲广告资源 CDN
+DOMAIN-SUFFIX,bytescm.com,REJECT,pre-matching,extended-matching
+# 今日头条广告与 SDK
+DOMAIN-KEYWORD,toutiao.com,REJECT,pre-matching,extended-matching
+# 头条系广告衍生域名
+DOMAIN-KEYWORD,toutiao-,REJECT,pre-matching,extended-matching
+
+# > 百度对象存储广告缓存
+# 百度 BOS 上的广告素材缓存
+DOMAIN-KEYWORD,bcebos,REJECT,pre-matching,extended-matching
+
+# > 广告联盟与联盟分发 SDK
+# 广告联盟分发服务
+DOMAIN-SUFFIX,adn-plus.com.cn,REJECT,pre-matching,extended-matching
+# 倍孜广告 SDK
+DOMAIN-SUFFIX,beizi.biz,REJECT,pre-matching,extended-matching
+# 广告联盟分发节点
+DOMAIN-SUFFIX,puata.info,REJECT,pre-matching,extended-matching
+# 广告安全监测 SDK
+DOMAIN-SUFFIX,secu100.net,REJECT,pre-matching,extended-matching
+# 广告聚合分发服务
+DOMAIN-SUFFIX,hubcloud.com.cn,REJECT,pre-matching,extended-matching
+# 友盟统计与广告 SDK
+DOMAIN-SUFFIX,umeng.com,REJECT,pre-matching,extended-matching
+# 友盟云服务（广告数据回传）
+DOMAIN-SUFFIX,umengcloud.com,REJECT,pre-matching,extended-matching
+
+# > 极光推送统计
+# 注意：不可整体屏蔽 jpush.cn，否则 APP 推送功能失效，只拦统计子域
+DOMAIN-KEYWORD,stats.jpush,REJECT,pre-matching,extended-matching
+
+# > Google 广告
+# DoubleClick 广告投放
+DOMAIN-KEYWORD,doubleclick,REJECT,pre-matching,extended-matching
+
+
+# ─── 2.2 本次新增（源自代理日志1分析，共覆盖 50 个广告域名）─────────
+
+# > 早范广告 SDK —— 开屏广告主要来源，提供开屏/插屏/信息流广告
+DOMAIN-SUFFIX,hzzfcm.com,REJECT,pre-matching,extended-matching
+
+# > 杭州顺畅智行科技 —— 大数据精准定向广告投放，日志中请求量最高
+DOMAIN-SUFFIX,shunchangzhixing.com,REJECT,pre-matching,extended-matching
+
+# > Fancy 程序化广告平台（DSP 数据上报 / S2S 回传）
+DOMAIN-SUFFIX,fancyapi.com,REJECT,pre-matching,extended-matching
+DOMAIN-SUFFIX,fancydsp.com,REJECT,pre-matching,extended-matching
+
+# > 阿里汇川 / 神马搜索广告联盟
+DOMAIN-SUFFIX,sm.cn,REJECT,pre-matching,extended-matching
+
+# > 广告竞价监控（请求路径含 bid_id 竞价 ID）
+DOMAIN-SUFFIX,whmingshan.cn,REJECT,pre-matching,extended-matching
+
+# > appsad 广告曝光统计（广告位 ID 上报）
+DOMAIN-SUFFIX,appsad.cn,REJECT,pre-matching,extended-matching
+
+# > 领骏广告平台（SDK 配置 / 竞价 / 投放）
+DOMAIN-SUFFIX,lingjuad.com,REJECT,pre-matching,extended-matching
+
+# > AdWangmai 广告联盟 SDK
+DOMAIN-SUFFIX,adwangmai.com,REJECT,pre-matching,extended-matching
+
+# > 66mobi 广告联盟（追踪 / 腾讯 SSP / 静态素材）
+DOMAIN-SUFFIX,66mobi.com,REJECT,pre-matching,extended-matching
+
+# > statisticslinks 广告统计链路（数据统计 / 追踪 / ADX）
+DOMAIN-SUFFIX,statisticslinks.com,REJECT,pre-matching,extended-matching
+
+# > 清讯 SSP 广告供应方平台
+DOMAIN-SUFFIX,qingxuntech.cn,REJECT,pre-matching,extended-matching
+
+# > adparticle 广告曝光监测（/mantis?action=imp）
+DOMAIN-SUFFIX,adparticle.com,REJECT,pre-matching,extended-matching
+
+# > rayenergytech 广告曝光上报（/impression）
+DOMAIN-SUFFIX,rayenergytech.com,REJECT,pre-matching,extended-matching
+
+# > 新度广告追踪（/tk 追踪接口）
+DOMAIN-SUFFIX,xinduoad.com,REJECT,pre-matching,extended-matching
+
+# > spin-view 广告追踪上报
+DOMAIN-SUFFIX,spin-view.com,REJECT,pre-matching,extended-matching
+
+# > bytrabbit 广告追踪上报
+DOMAIN-SUFFIX,bytrabbit.com,REJECT,pre-matching,extended-matching
+
+# > maspiece 广告追踪上报
+DOMAIN-SUFFIX,maspiece.com,REJECT,pre-matching,extended-matching
+
+# > adbiding 广告竞价追踪（ad bidding）
+DOMAIN-SUFFIX,adbiding.cn,REJECT,pre-matching,extended-matching
+
+# > jizbmedia 广告曝光上报（/adx/pv）
+DOMAIN-SUFFIX,jizbmedia.com,REJECT,pre-matching,extended-matching
+
+# > zerunjiacheng 广告监测回传（/mr）
+DOMAIN-SUFFIX,zerunjiacheng.cn,REJECT,pre-matching,extended-matching
+
+# > divms 广告展示监测
+DOMAIN-SUFFIX,divms.cn,REJECT,pre-matching,extended-matching
+
+# > maplehaze SSP 广告供应方平台
+DOMAIN-SUFFIX,maplehaze.cn,REJECT,pre-matching,extended-matching
+
+# > 酷亮广告平台
+DOMAIN-SUFFIX,kuliangtech.cn,REJECT,pre-matching,extended-matching
+
+# > bwton 广告图片 CDN
+DOMAIN-SUFFIX,bwton.com,REJECT,pre-matching,extended-matching
+
+# > laiyagushi 广告落地页 / Open API
+DOMAIN-SUFFIX,laiyagushi.com,REJECT,pre-matching,extended-matching
+
+# > 以下为推广素材 CDN：本 APP 内仅用于渲染第三方广告图，整域拦截
+# > 美团推广素材 CDN（s3plus / p0）
+DOMAIN-SUFFIX,meituan.net,REJECT,pre-matching,extended-matching
+# > 拼多多推广素材与 DSP（images / t-dsp）
+DOMAIN-SUFFIX,pinduoduo.com,REJECT,pre-matching,extended-matching
+# > 快手推广素材（gdfp）
+DOMAIN-SUFFIX,gifshow.com,REJECT,pre-matching,extended-matching
+# > 优酷 DSP 推广（youku-dsp）
+DOMAIN-SUFFIX,youku-dsp.youku.com,REJECT,pre-matching,extended-matching
+# > 陌陌推广（ext）
+DOMAIN-SUFFIX,immomo.com,REJECT,pre-matching,extended-matching
+# > UC 信息流推广图片（image.uczzd）
+DOMAIN-SUFFIX,uczzd.cn,REJECT,pre-matching,extended-matching
+
+# > 以下为公共基础设施域名，整域拦截会误伤正常服务，故用精确域名匹配
+# > 阿里广告（ilce），alicdn.com 为公共 CDN，仅拦该子域
+DOMAIN,ilce.alicdn.com,REJECT,pre-matching,extended-matching
+# > 百度联盟（bgg），baidu.com 涉及面极广，仅拦该子域
+DOMAIN,bgg.baidu.com,REJECT,pre-matching,extended-matching
+# > 百度信息流推广图片，同理仅拦该子域
+DOMAIN,feed-image.baidu.com,REJECT,pre-matching,extended-matching
+
+
+# ─── 2.3 新增（源自代理日志2分析）─────────
+
+# > 腾讯 TDID 设备标识 —— 跨 APP 广告追踪的设备指纹服务
+# qq.com 涉及面极广，用精确匹配
+DOMAIN,tdid.m.qq.com,REJECT,pre-matching,extended-matching
+
+# > Adroom 广告平台事件上报（官网 dashisx.com 即 Adroom，主营广告投放）
+# 已查实整域为广告平台，故用 SUFFIX 整域拦截
+DOMAIN-SUFFIX,dashisx.com,REJECT,pre-matching,extended-matching
+
+# > 上海灵耶信息技术（api.shanghailingye.cn）
+# 性质未完全查明，按用户要求拦截；用精确匹配以降低误伤
+DOMAIN,api.shanghailingye.cn,REJECT,pre-matching,extended-matching
+
+
+# ─── 2.4 首页车场广告位（源自代理日志4/5 分析）─────────
+#
+# 广告数据接口：/yihao01-app-api/app/advert/listBySizeNew
+# 走官方主 API sapi.0easy.com，无法域名拦截。
+# v5.2 曾用 URL-REGEX + REJECT-200 直接拦截 —— 广告消失但 APP 报"网络异常"：
+# 空 body 无法被 APP 解析，无优雅降级。
+# v5.3 改用响应改写脚本（见 [Script] 段）：请求照常发出，响应返回后清空广告数据，
+# code/msg 等字段保持服务器原样，格式必然兼容。
+
+
+[Script]
+# 清空首页广告位数据（脚本已推送至 Gist，文件名 advert-block.js）
+一号社区广告位清空 = type=http-response,pattern=^https://sapi\.0easy\.com/yihao01-app-api/app/advert/listBySizeNew,requires-body=true,max-size=0,script-path=https://gh-proxy.com/https://gist.githubusercontent.com/wiihunting/5bc63f707da6cb3b5fbf31dee8053869/raw/advert-block.js
+
+
+[MITM]
+# 脚本需解密此域名才能读取/改写响应体；%APPEND% 追加，不影响既有列表
+hostname = %APPEND% sapi.0easy.com
