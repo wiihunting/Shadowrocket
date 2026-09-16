@@ -1,6 +1,6 @@
 #!name=一号社区APP广告拦截
-#!desc=一号社区APP广告拦截模块：放行官方业务域名，拦截第三方广告SDK、广告联盟及推广素材（含腾讯优量汇、快手广告，已启用预检测与扩展检测）
-#!version=v5.5
+#!desc=一号社区APP广告拦截模块：放行官方业务域名，拦截第三方广告SDK、广告联盟及推广素材（含穿山甲、腾讯优量汇、快手广告，已启用预检测与扩展检测）
+#!version=v5.6
 #!author=wiihunting
 #!category=AdBlock
 #!system=ios
@@ -42,6 +42,8 @@ DOMAIN-SUFFIX,bytescm.com,REJECT,pre-matching,extended-matching
 DOMAIN-KEYWORD,toutiao.com,REJECT,pre-matching,extended-matching
 # 头条系广告衍生域名
 DOMAIN-KEYWORD,toutiao-,REJECT,pre-matching,extended-matching
+# 穿山甲 SDK API（toutiao1.com 不含 toutiao-，需单独拦截）
+DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com,REJECT,pre-matching,extended-matching
 
 # > 百度对象存储广告缓存
 # 百度 BOS 上的广告素材缓存
@@ -211,8 +213,9 @@ DOMAIN-SUFFIX,e.qq.com,REJECT,pre-matching,extended-matching
 DOMAIN-SUFFIX,gdt.qq.com,REJECT,pre-matching,extended-matching
 # 优量汇广告素材与曝光回传（腾讯，adsmind/pgdt.ugdtimg.com）
 DOMAIN-SUFFIX,ugdtimg.com,REJECT,pre-matching,extended-matching
-# 优量汇素材备用域名（腾讯，adsmind.gdtimg.com）
-DOMAIN,adsmind.gdtimg.com,REJECT,pre-matching,extended-matching
+# 优量汇广告素材 CDN（腾讯，adsmind / qzs.gdtimg.com）
+# 2026-09-16 22:31 日志中 qzs.gdtimg.com 绕过直连，改为整域拦截
+DOMAIN-SUFFIX,gdtimg.com,REJECT,pre-matching,extended-matching
 # 优量汇曝光上报（腾讯，pgdt.gtimg.cn / pgdt.gtimg.com）
 # gtimg 是腾讯公共图床，只能精确匹配这两个子域，不能整域拦截
 DOMAIN,pgdt.gtimg.cn,REJECT,pre-matching,extended-matching
