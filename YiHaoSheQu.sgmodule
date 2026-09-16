@@ -1,6 +1,6 @@
 #!name=一号社区APP广告拦截
-#!desc=一号社区APP广告拦截模块：放行官方业务域名，拦截第三方广告SDK、广告联盟及推广素材（含穿山甲、腾讯优量汇、快手广告，已启用预检测与扩展检测）
-#!version=v5.6
+#!desc=一号社区APP广告拦截模块：放行官方业务域名，拦截第三方广告SDK、广告联盟及推广素材（含穿山甲、腾讯优量汇、快手广告，并改写开屏与首页广告状态）
+#!version=v5.7
 #!author=wiihunting
 #!category=AdBlock
 #!system=ios
@@ -231,9 +231,20 @@ DOMAIN-SUFFIX,e.kuaishou.com,REJECT,pre-matching,extended-matching
 DOMAIN-SUFFIX,e.kuaishou.cn,REJECT,pre-matching,extended-matching
 
 
+# ─── 2.7 开屏广告状态（官方接口响应改写）─────────
+#
+# 状态接口：/yihao01-ecommunity-api/outapi/switchapi/app/advertise/status
+# 2026-09-16 22:46 日志实测响应为 data="1"，表示广告开启。
+# v5.7 由 advert-block.js 将其改为 data="0"，保留 code/desc 等字段，
+# 让 APP 主动关闭开屏广告，避免已缓存素材继续展示。
+
+
 [Script]
-# 清空首页广告位数据（脚本已推送至 Gist，文件名 advert-block.js）
-一号社区广告位清空 = type=http-response,pattern=^https://sapi\.0easy\.com/yihao01-app-api/app/advert/listBySizeNew,requires-body=true,max-size=0,script-path=https://gh-proxy.com/https://gist.githubusercontent.com/wiihunting/5bc63f707da6cb3b5fbf31dee8053869/raw/advert-block.js
+# advert-block.js 已迁移到本仓库，不再依赖旧 Gist
+# 首页车场广告位：清空 data 中的广告数组
+一号社区广告位清空 = type=http-response,pattern=^https://sapi\.0easy\.com/yihao01-app-api/app/advert/listBySizeNew,requires-body=true,max-size=0,script-path=https://gh-proxy.com/https://raw.githubusercontent.com/wiihunting/Shadowrocket/main/advert-block.js
+# 开屏广告状态：将 data 从 "1" 改为 "0"
+一号社区开屏广告关闭 = type=http-response,pattern=^https://sapi\.0easy\.com/yihao01-ecommunity-api/outapi/switchapi/app/advertise/status,requires-body=true,max-size=0,script-path=https://gh-proxy.com/https://raw.githubusercontent.com/wiihunting/Shadowrocket/main/advert-block.js
 
 
 [MITM]
